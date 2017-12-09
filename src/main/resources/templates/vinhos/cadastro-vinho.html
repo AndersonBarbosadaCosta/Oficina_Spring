@@ -95,20 +95,22 @@
 					<span>Mensagem sucesso!</span>
 				</div>
 
-                <div class="alert  alert-danger  alert-dismissible" role="alert">
+                
+
+				<form method="POST" class="form-vertical  js-form-loading"
+				th:object="${vinho}" th:action="@{/vinhos/novo}">
+				<div class="alert  alert-danger  alert-dismissible" role="alert"
+                th:if="${#fields.hasAnyErrors()}">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 
-					<div>
+					<div th:each="erros: ${#fields.detailedErrors()}">
 						<i class="fa fa-exclamation-circle"></i>
 						
-						<span>Mensagem erro.</span>
+						<span th:text ="${erros.message}">Mensagem erro.</span>
 					</div>
 				</div>
-
-				<form method="POST" class="form-vertical  js-form-loading"
-				th:object="${vinho}" th:action="@{/vinhos/novo}">
 					<div class="form-group">
 						<label for="nome">Nome</label>
 
