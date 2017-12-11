@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,13 @@ public class VinhosController {
 	public ModelAndView editar(@PathVariable Long id) {
 		return novo(vinhos.findOne(id));
 	}
+	
+	@GetMapping
+	public ModelAndView listar(){
+		ModelAndView model = new ModelAndView("vinhos/lista-vinhos");
+		model.addObject("vinhos", vinhos.findAll());
+		return model ;
+	}
 
 	@PostMapping("/novo")
 	public ModelAndView salvar(@Valid Vinho vinho, BindingResult result,RedirectAttributes attributes) {
@@ -43,7 +51,14 @@ public class VinhosController {
 			return novo(vinho);
 		}
 		this.vinhos.save(vinho);
-		attributes.addFlashAttribute("mensagem","Vinho Salvo com Sucesso !!");
-		return new ModelAndView("redirect:/vinhos/novo");
+		attributes.addFlashAttribute("mensagem","Vinho Salvo com Sucesso!!");
+		return new ModelAndView("redirect:/vinhos");
+	}
+	
+	@DeleteMapping("/{id}")
+	public String remover(@PathVariable Long id, RedirectAttributes attributes){
+		vinhos.delete(id);
+		attributes.addFlashAttribute("mensagem", "Registro excluido com Sucesso!!");
+		return "redirect:/vinhos";
 	}
 }
