@@ -1,5 +1,5 @@
 package com.projetos.vinhos.model;
 
 public enum TipoVinho {
-TINTO,BRANCO,ROSE
+    TINTO, BRANCO, ROSE
 }
